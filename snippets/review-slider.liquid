@@ -1,0 +1,174 @@
+{% style %}
+section.review-slider {
+    padding: 48px 0 0;
+    border-top: 1px solid #00000080;
+    max-width: 850px;
+    margin: 0 auto;
+}
+.review-slider__text {
+    font-family: Open Sans;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 155%;
+    letter-spacing: 0.6px;
+    text-align: center;
+    margin: 0;
+    color: #000;
+}
+.review-content {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 16px 0 50px;
+}
+span.review-slider__location {
+    font-family: Open Sans;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 155%;
+    letter-spacing: 0.6px;
+    color: #000000CC;
+}
+span.review-slider__date {
+    font-family: Open Sans;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 155%;
+    letter-spacing: 0.6px;
+    color: #000000CC;
+}
+.swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets.swiper-pagination-horizontal {
+    bottom:0;
+}
+.swiper-button-next, .swiper-button-prev {
+    color: #000;
+}
+.swiper-button-prev:after, .swiper-rtl .swiper-button-next:after,
+.swiper-button-next:after, .swiper-rtl .swiper-button-prev:after {
+    font-size: 16px;
+}
+.swiper-button-next, .swiper-rtl .swiper-button-prev, .swiper-button-prev, .swiper-rtl .swiper-button-next {
+    border: 1px solid #000;
+    padding: 20px;
+    height: 30px;
+    width: 30px;
+}
+.swiper-pagination-bullet-active {
+    background: #000000;
+}
+@media screen and (max-width: 990px) {
+
+    .review-slider__text {
+        font-size: 18px;
+        line-height: 155%;
+        letter-spacing: 0.6px;
+    }
+.swiper-button-next, .swiper-button-prev {
+    display: none !important;
+}
+}
+{% endstyle %}
+
+<section class="review-slider">
+  <div class="review-slider__swiper swiper">
+    <div class="swiper-wrapper">
+
+      {% for block in section.blocks %}
+        <div class="swiper-slide" {{ block.shopify_attributes }}>
+          <div class="review-slider__item">
+
+            {% if block.settings.review_text != blank %}
+              <div class="review-slider__text">
+                {{ block.settings.review_text }}
+              </div>
+            {% endif %}
+
+            <div class="review-content">
+                <div class="review-slider__rating">
+                {% for i in (1..5) %}
+                    {% if i <= block.settings.rating %}
+                    <span class="star star--active">★</span>
+                    {% else %}
+                    <span class="star"></span>
+                    {% endif %}
+                {% endfor %}
+                </div>
+
+                <div class="review-slider__meta">
+                {% if block.settings.location != blank %}
+                    <span class="review-slider__location">
+                    {{ block.settings.location }}
+                    </span>
+                {% endif %}
+
+                {% if block.settings.review_date != blank %}
+                    <span class="review-slider__date">
+                    · {{ block.settings.review_date }}
+                    </span>
+                {% endif %}
+                </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+
+    {% if section.settings.show_arrows %}
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
+    {% endif %}
+
+    {% if section.settings.show_dots %}
+      <div class="swiper-pagination"></div>
+    {% endif %}
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const swiper = new Swiper('.review-slider__swiper', {
+      slidesPerView: 1,
+      spaceBetween: 24,
+      loop: false,
+      pagination: {
+        el: '.review-slider .swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.review-slider .swiper-button-next',
+        prevEl: '.review-slider .swiper-button-prev'
+      },
+      on: {
+        init: function () {
+          toggleArrows(this);
+        },
+        slideChange: function () {
+          toggleArrows(this);
+        }
+      }
+    });
+
+    function toggleArrows(swiper) {
+      const prev = document.querySelector('.review-slider .swiper-button-prev');
+      const next = document.querySelector('.review-slider .swiper-button-next');
+
+      if (!prev || !next) return;
+
+      // First slide
+      if (swiper.isBeginning) {
+        prev.style.display = 'none';
+      } else {
+        prev.style.display = 'flex';
+      }
+
+      // Last slide
+      if (swiper.isEnd) {
+        next.style.display = 'none';
+      } else {
+        next.style.display = 'flex';
+      }
+    }
+  });
+</script>

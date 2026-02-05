@@ -1,0 +1,154 @@
+{% style %}
+.hero-bg {
+    position: relative;
+    background-image: url({{ section.settings.bg_image | image_url: width: 2000 }});
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+.hero-bg::after {
+    content: "";
+    position: absolute;
+    right: -90px;
+    bottom: -90px;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle,rgba(146, 51, 234, 0.19), transparent 70%);
+    pointer-events: none;
+}
+.hero-bg__inner {
+    padding: 64px 80px;
+}
+@media screen and (max-width: 990px) {
+    .hero-bg__inner {
+        padding: 48px 16px;
+    }
+    .hero-bg::after {
+        content: "";
+        position: absolute;
+        right: -55px;
+        bottom: -60px;
+        width: 250px;
+        height: 250px;
+        background: radial-gradient(circle, rgb(146 51 234 / 34%), transparent 70%);
+        pointer-events: none;
+    }
+}
+{% endstyle %}
+
+
+<section class="hero-bg" >
+  <div class="hero-bg__inner page-width">
+    {% render 'image-text-hero' %}
+    {% render 'review-slider' %}
+  </div>
+</section>
+
+
+{% schema %}
+{
+  "name": "Hero Background Layout",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background image"
+    },
+    {
+        "type": "header",
+        "content": "Image Text Section"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Lorem ipsum dolor sit amet"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "textarea",
+      "id": "text_below_button",
+      "label": "Text below button",
+      "default": "Over 100,000+ Happy customers"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },{
+      "type": "header",
+      "content": "Review Slider Section"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dots",
+      "label": "Show dots",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "review_text",
+          "label": "Review text",
+          "default": "“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor”"
+        },
+        {
+          "type": "range",
+          "id": "rating",
+          "label": "Rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "location",
+          "label": "Location",
+          "default": "New York, USA"
+        },
+        {
+          "type": "text",
+          "id": "review_date",
+          "label": "Date",
+          "default": "Jan 12, 2025"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Background Layout",
+    }
+  ]
+}
+
+{% endschema %}
