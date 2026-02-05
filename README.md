@@ -8,6 +8,7 @@ You can preview the implementation on the development store below:
 **Password:**
 `test-nilesh`
 
+Video : https://www.loom.com/share/843379678d7a4b2091560d7f0e66dc6a
 ---
 
 # Hero Background Layout – Shopify Section (Dawn Theme)
